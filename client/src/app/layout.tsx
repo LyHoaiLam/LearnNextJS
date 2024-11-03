@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
 
+const inter = Inter({ subsets: ['vietnamese'], weight: ['100', '300']})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,15 +16,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
+    <html lang="en" suppressHydrationWarning>
+      {/* <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:ital,wght@1,100..900&display=swap" rel="stylesheet" />
-      </head>
-      <body>
-        <h1>Header Layout Root</h1>
-        {children}
+      </head> */}
+      <body className={`${inter.className}`}>
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+        </ThemeProvider>
       </body>
     </html>
   );
