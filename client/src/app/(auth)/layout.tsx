@@ -6,7 +6,7 @@ export default function AuthLayout({
 }>) {
   return (
     <div>
-        <div><Link href="/">Home Page Layout Auth</Link></div>
+        {/* <div><Link href="/">Home Page Layout Auth</Link></div> */}
         {children}
     </div>
   );
