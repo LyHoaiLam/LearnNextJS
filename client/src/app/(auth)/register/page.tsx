@@ -1,13 +1,15 @@
 
-import { ModeToggle } from "@/components/mode-toggle"
 import RegisterForm from './register-form'
 
 const RegisterPage = () => {
     return (
-        <div className="">
-            <h1>Đăng ký</h1>
-            <RegisterForm />
-        </div>
+        <>
+            <h1 className="text-xl font-semibold text-center">Đăng ký</h1>
+            <div className="flex justify-center">
+
+                <RegisterForm />
+            </div>
+        </>
     )
 }
 

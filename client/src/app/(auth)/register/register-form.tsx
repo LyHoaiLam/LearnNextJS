@@ -5,13 +5,13 @@ import { z } from "zod"
 import { 
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import envConfig from "@/config"
 
 const formSchema = z.object({
     name: z.string().trim().min(2).max(256),
@@ -22,12 +22,20 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
     
-function onSubmit(values: FormValues) {
+async function onSubmit(values: FormValues) {
+    const result = await fetch(`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/auth/register`, {
+        body: JSON.stringify(values),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST'
+    }).then((res) => res.json())
     console.log(values)
+    console.log(result)
 }
 
-const RegisterFrom = () => {
 
+const RegisterFrom = () => {
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -42,7 +50,10 @@ const RegisterFrom = () => {
         <div className="">
 
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <form onSubmit={form.handleSubmit(onSubmit, (error) => {
+                    console.log("onInValid Chạy nêu Form lỗi")
+
+                })} className="space-y-2 w-full flex-shrink max-w-[600px]">
                     <FormField
                         control={form.control}
                         name="name"
@@ -50,11 +61,8 @@ const RegisterFrom = () => {
                             <FormItem>
                             <FormLabel>Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="Name" {...field} />
+                                <Input type="text" placeholder="Name" {...field} />
                             </FormControl>
-                            <FormDescription>
-                                This is your public display name.
-                            </FormDescription>
                             <FormMessage />
                             </FormItem>
                     )}
@@ -67,11 +75,8 @@ const RegisterFrom = () => {
                             <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                                <Input placeholder="Email" {...field} />
+                                <Input type="email" placeholder="Email" {...field} />
                             </FormControl>
-                            <FormDescription>
-                                This is your public display name.
-                            </FormDescription>
                             <FormMessage />
                             </FormItem>
                     )}
@@ -84,11 +89,8 @@ const RegisterFrom = () => {
                             <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                                <Input placeholder="Password" {...field} />
+                                <Input type="password" placeholder="Password" {...field} />
                             </FormControl>
-                            <FormDescription>
-                                This is your public display name.
-                            </FormDescription>
                             <FormMessage />
                             </FormItem>
                     )}
@@ -101,17 +103,14 @@ const RegisterFrom = () => {
                             <FormItem>
                             <FormLabel>confirmPassword</FormLabel>
                             <FormControl>
-                                <Input placeholder="confirmPassword" {...field} />
+                                <Input type="password" placeholder="confirmPassword" {...field} />
                             </FormControl>
-                            <FormDescription>
-                                This is your public display name.
-                            </FormDescription>
                             <FormMessage />
                             </FormItem>
                     )}
                     />
 
-                    <Button type="submit">Submit</Button>
+                    <Button onClick={() => onSubmit} className="!mt-8 w-full" type="submit">Submit</Button>
                 </form>
             </Form>
         </div>
