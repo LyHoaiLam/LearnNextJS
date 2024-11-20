@@ -2,21 +2,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { 
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import envConfig from "@/config"
 import { useToast } from "@/hooks/use-toast";
-
-
-
-
 
 const LoginForm = () => {
     const { toast } = useToast()
@@ -34,13 +24,10 @@ const LoginForm = () => {
         },
     })
 
-
-    
     
     type FormValues = z.infer<typeof formSchema>
         
     async function onSubmit(values: FormValues) {
-    
         try {
     
             const result = await fetch(`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/auth/login`, {
@@ -67,6 +54,32 @@ const LoginForm = () => {
         toast({
             description: result.payload.message
         })
+
+        // console.log(result)
+
+        const resultFromNextServer = await fetch('/api/auth/', {
+            method: 'POST',
+            body: JSON.stringify(result),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(async (res) => {
+            const payload = await res.json()
+        
+            const data = {
+                status: res.status,
+                payload
+            }
+        
+            if(!res.ok) {
+                throw data
+            }
+        
+            return data
+        })
+
+        console.log(resultFromNextServer)
+
         
         } catch (error: any) {
     

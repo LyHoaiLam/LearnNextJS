@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header";
 import { Toaster } from "@/components/ui/toaster";
+import AppProvider from "./AppProvider";
 
 const inter = Inter({ subsets: ['vietnamese'], weight: ['100', '300']})
 
@@ -27,9 +28,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-              
-            <Header />
+
+          <Header />
+          <AppProvider>
             {children}
+          </AppProvider>
+              
         </ThemeProvider>
       </body>
     </html>
