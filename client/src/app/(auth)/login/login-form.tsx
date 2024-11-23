@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import envConfig from "@/config"
 import { useToast } from "@/hooks/use-toast";
+import { useAppContext } from "@/app/AppProvider"
 
 const LoginForm = () => {
     const { toast } = useToast()
+    const {setSessionToken} = useAppContext();
 
     const formSchema = z.object({
         email: z.string().email(),
@@ -23,7 +25,6 @@ const LoginForm = () => {
         password: "",
         },
     })
-
     
     type FormValues = z.infer<typeof formSchema>
         
@@ -78,7 +79,8 @@ const LoginForm = () => {
             return data
         })
 
-        console.log(resultFromNextServer)
+        console.log(resultFromNextServer.payload.data.token)
+        setSessionToken(resultFromNextServer.payload.data.token);
 
         
         } catch (error: any) {
