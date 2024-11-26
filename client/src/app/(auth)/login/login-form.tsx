@@ -79,8 +79,8 @@ const LoginForm = () => {
             return data
         })
 
-        console.log(resultFromNextServer.payload.data.token)
-        setSessionToken(resultFromNextServer.payload.data.token);
+        // console.log(resultFromNextServer.payload.data.token)
+        setSessionToken(resultFromNextServer.payload.data.token);// setToken vào trong ContextAPI
 
         
         } catch (error: any) {

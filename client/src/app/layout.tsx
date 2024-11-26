@@ -22,7 +22,7 @@ export default function RootLayout({
 
   const cookiesStore = cookies()
   const sessionToken = cookiesStore.get('sessionToken')
-  console.log('Root Layout: ',cookiesStore.get('sessionToken'))
+  // console.log('Root Layout: ',cookiesStore.get('sessionToken'))
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className}`}>
